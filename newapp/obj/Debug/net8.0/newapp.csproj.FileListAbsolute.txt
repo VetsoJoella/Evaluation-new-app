@@ -26,3 +26,4 @@ D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\refint\newapp.dll
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.pdb
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.genruntimeconfig.cache
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\ref\newapp.dll
+D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.sourcelink.json
