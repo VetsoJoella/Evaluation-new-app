@@ -5,6 +5,7 @@ D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.csproj.CoreCompileIn
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.MvcApplicationPartsAssemblyInfo.cache
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.RazorAssemblyInfo.cache
 D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.RazorAssemblyInfo.cs
+D:\Itu\S6\Evaluation-new-app\newapp\obj\Debug\net8.0\newapp.sourcelink.json
 D:\Itu\S6\Evaluation-new-app\newapp\bin\Debug\net8.0\appsettings.Development.json
 D:\Itu\S6\Evaluation-new-app\newapp\bin\Debug\net8.0\appsettings.json
 D:\Itu\S6\Evaluation-new-app\newapp\bin\Debug\net8.0\newapp.staticwebassets.runtime.json
