@@ -1,0 +1,15 @@
+@await Html.PartialAsync("_Header")
+
+<!-- Sidebar (optionnel) -->
+@if (IsSectionDefined("Sidebar"))
+{
+    @RenderSection("Sidebar", required: false)
+}
+
+<main id="main" class="main">
+  
+    @RenderBody()
+    
+</main>
+
+@await Html.PartialAsync("_Footer")
