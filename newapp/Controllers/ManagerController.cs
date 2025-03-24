@@ -11,6 +11,8 @@ namespace newapp.Controllers  // IMPORTANT : Ajoute "Login"
             
             return View();
         }
+
+        
         [Route("ModifAlertRate")]
         public IActionResult ModifAlertRate()
         {
