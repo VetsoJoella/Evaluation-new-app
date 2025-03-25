@@ -24,5 +24,23 @@ namespace newapp.Models.Response
         {
             Map[key] = value;
         }
+
+        public T GetValue<T>(string key, T defaultValue = default)
+        {
+            if (Map.TryGetValue(key, out object value) && value is T typedValue)
+            {
+                return typedValue;
+            }
+            return defaultValue;
+        }
+
+        // public T GetValue<T>(string key, T defaultValue = default)
+        // {
+        //     if (Map.TryGetValue(key, out object value) && value is T typedValue)
+        //     {
+        //         return typedValue;
+        //     }
+        //     return defaultValue;
+        // }
     }
 }

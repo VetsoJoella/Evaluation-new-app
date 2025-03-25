@@ -6,6 +6,6 @@ namespace newapp.Services.Connection
 {
     public interface IConnectionService 
     {
-        Task<ResponseAPI> Connection(Manager manager) ;
+        Task<ResponseAPI<User>> Connection(Manager manager) ;
     }
 }

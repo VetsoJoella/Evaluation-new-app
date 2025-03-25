@@ -1,38 +1,34 @@
 using newapp.Models;
+using newapp.Config  ; 
+using newapp.Models.Response;
+using newapp.Models;
+
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using newapp.Models.Response;
-using newapp.Models;
-using newapp.Config ; 
 
-namespace newapp.Services.Connection
+namespace newapp.Services.DashBoardService
 {
-    public class ConnectionService : IConnectionService
+    public class DashBoardService : IDashBoardService
     {
         private readonly HttpClient _httpClient;
 
-        public ConnectionService()
+
+        public DashBoardService()
         {
             _httpClient = new HttpClient();
         }
 
-        public async Task<ResponseAPI<User>> Connection(Manager manager)
+        public async Task<ResponseAPI<DashBoard>> GetDashBoard()
         {
            try
-            {
-                // Convertir l'objet User en JSON
-                string jsonUser = JsonSerializer.Serialize(manager);
-                var content = new StringContent(jsonUser, Encoding.UTF8, "application/json");
+            {                
+                HttpResponseMessage response = await _httpClient.GetAsync(Constant.ApiBaseUrl+"/dashboard");
 
-                Console.WriteLine($"content: {jsonUser}");
-                HttpResponseMessage response = await _httpClient.PostAsync(Constant.ApiBaseUrl+"/connection", content);
-
-
-                // Vérifier la réponse
+        //         // Vérifier la réponse
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonResponse = await response.Content.ReadAsStringAsync();
@@ -40,13 +36,13 @@ namespace newapp.Services.Connection
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                     };
                     Console.WriteLine($"Réponse de await est : {jsonResponse} ");
-                    return JsonSerializer.Deserialize<ResponseAPI<User>>(jsonResponse, options);
+                    return JsonSerializer.Deserialize<ResponseAPI<DashBoard>>(jsonResponse, options);
                 }
                 else
                 {
                     throw new Exception($"Erreur API : {response.StatusCode}");
                 }
-                // return null ; 
+                return null ; 
             }
             catch (Exception ex)
             {

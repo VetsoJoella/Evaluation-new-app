@@ -23,11 +23,11 @@ namespace newapp.Models
 
         public async Task Connection()
         {
-            ConnectionService connectionService = new ConnectionService(new HttpClient());
+            ConnectionService connectionService = new ConnectionService();
 
             try 
             {
-                ResponseAPI responseAPI = await connectionService.Connection(this);
+                ResponseAPI<User> responseAPI = await connectionService.Connection(this);
 
                 if (responseAPI == null) throw new ConnectionManagerException("No response from server", this);
                 
