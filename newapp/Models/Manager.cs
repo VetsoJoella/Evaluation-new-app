@@ -21,7 +21,7 @@ namespace newapp.Models
         public string Password { get; set; }
 
 
-        public async Task Connection()
+        public async Task<ResponseAPI<User>> Connection()
         {
             ConnectionService connectionService = new ConnectionService();
 
@@ -34,6 +34,7 @@ namespace newapp.Models
 
                 if (responseAPI.Status != 200) throw new ConnectionManagerException(responseAPI.Message ?? "Unknown error", this);
                 
+                return responseAPI ;
             }
             catch (System.Exception ex) 
             {

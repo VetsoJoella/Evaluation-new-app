@@ -4,9 +4,9 @@ namespace newapp.Models
 {
     public class DashBoard {
 
-        public int NbCustomer { get; set; }
-        public int NbTicket { get; set; }
-        public int NbLead { get; set; }
+        public int CountUsers { get; set; }
+        public int CountTickets { get; set; }
+        public int CountLeads { get; set; }
 
     }
     
