@@ -1,9 +1,21 @@
-@{
-    ViewData["Title"] = "Dashboard";
-}
+@model AlertRate
 
 @section Sidebar {
     @await Html.PartialAsync("side-bar/side-bar-manager")
+}
+
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-info" style="z-index: 1000;">
+        @ViewData["Message"]
+    </div>
+}
+
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger" style="z-index: 1000;">
+        @ViewData["Error"]
+    </div>
 }
 
 <main id="main" class="main">
@@ -34,23 +46,28 @@
                           <h5 class="card-title">Alert Rate</h5>
             
                           <!-- General Form Elements -->
-                          <form>
+                          <form asp-action="ModifAlertRate" asp-controller="Manager"  method="post" class="row g-3 needs-validation" novalidate>
                             <div class="row mb-3">
                               <label for="inputText" class="col-sm-2 col-form-label">Start date</label>
                               <div class="col-sm-10">
-                                <input type="date" class="form-control">
+                                <input type="date" asp-for="StartDate" class="form-control">
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+
                               </div>
                             </div>
                             <div class="row mb-3">
                               <label for="inputEmail" class="col-sm-2 col-form-label">End date</label>
                               <div class="col-sm-10">
-                                <input type="date" class="form-control">
+                                <input type="date" asp-for="EndDate" class="form-control">
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+
                               </div>
                             </div>
                             <div class="row mb-3">
                               <label for="inputPassword" class="col-sm-2 col-form-label">Percentage</label>
                               <div class="col-sm-10">
-                                <input type="text" class="form-control">
+                                <input type="text" asp-for="Percentage" class="form-control">
+                                <span asp-validation-for="Percentage" class="text-danger"></span>
                               </div>
                             </div>
                             <div class="row mb-3">

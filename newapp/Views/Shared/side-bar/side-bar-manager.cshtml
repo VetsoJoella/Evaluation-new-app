@@ -22,12 +22,22 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Alerte rate</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-journal-text"></i><span>Home</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="@Url.Action("ModifAlertRate", "Manager")">
-              <i class="bi bi-circle"></i><span>Modify</span>
+            <a href="@Url.Action("ShowFormAlert", "Manager")">
+              <i class="bi bi-circle"></i><span>Alert rate</span>
+            </a>
+          </li>
+          <li>
+            <a href="@Url.Action("List", "Manager")">
+              <i class="bi bi-circle"></i><span>Liste</span>
+            </a>
+          </li>
+           <li>
+            <a href="@Url.Action("Import", "Manager")">
+              <i class="bi bi-circle"></i><span>Import</span>
             </a>
           </li>
         </ul>

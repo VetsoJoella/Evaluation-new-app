@@ -1,0 +1,84 @@
+@model AlertRate
+
+@section Sidebar {
+    @await Html.PartialAsync("side-bar/side-bar-manager")
+}
+
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-info" style="z-index: 1000;">
+        @ViewData["Message"]
+    </div>
+}
+
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger" style="z-index: 1000;">
+        @ViewData["Error"]
+    </div>
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Recent Sales -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Alert Rate</h5>
+
+                                    <!-- General Form Elements -->
+                                    <form asp-action="Import" asp-controller="ManagerImport" method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                                        
+                                        <!-- Nouveau champ Fichier -->
+                                        <div class="row mb-3">
+                                            <label class="col-sm-2 col-form-label">Import File</label>
+                                            <div class="col-sm-10">
+                                                <input type="file" name="jsonFile" class="form-control" accept=".json">
+                                                <div class="form-text">Formats acceptés: CSV, Excel, JSON</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-sm-10 offset-sm-2">
+                                                <div class="btn-group" role="group">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="bi bi-save"></i> Save Changes
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form><!-- End General Form Elements -->
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Recent Sales -->
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Style supplémentaire pour les boutons -->
+<style>
+    .btn-group .btn {
+        margin-right: 5px;
+    }
+    .bi {
+        margin-right: 5px;
+    }
+</style>

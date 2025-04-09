@@ -1,11 +1,11 @@
+
+using newapp.Models.Response;
 using newapp.Models;
-using System.Threading.Tasks;
-using newapp.Models.Manager;
 
 namespace newapp.Services.Connection
 {
-    public interface IConnectionService
+    public interface IConnectionService 
     {
-        Task<Manager> Connection(Manager manager); 
+        Task<ResponseAPI<User>> Connection(Manager manager) ;
     }
 }

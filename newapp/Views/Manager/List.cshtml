@@ -1,0 +1,132 @@
+@model Intervalle
+@using newapp.Models
+@using System.Globalization
+
+@section Sidebar {
+    @await Html.PartialAsync("side-bar/side-bar-manager")
+} 
+
+@if (ViewData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @ViewData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (ViewData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @ViewData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<main id="main" class="main">
+      <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Search by Date Range</h5>
+             <form method="get" asp-action="List" asp-controller="Manager">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate" asp-for="StartDate" class="form-control" required />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="endDate">End Date</label>
+                        <input type="date" asp-for="EndDate" id="endDate" class="form-control" required />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">Liste des Tickets et Leads</h5>
+            </div>
+
+            <!-- Tableau amélioré -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Client</th>
+                            <th scope="col">Montant</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var tickets = ViewData["Tickets"] as List<MinLeadTicket> ?? new List<MinLeadTicket>();
+                            var leads = ViewData["Leads"] as List<MinLeadTicket> ?? new List<MinLeadTicket>();
+                            
+                            if (!tickets.Any() && !leads.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">Aucune donnée disponible pour ces dates</td>
+                                </tr>
+                            }
+                            
+                            @foreach (var ticket in tickets)
+                            {
+                                <tr>
+                                    <td>@ticket.Id</td>
+                                    <td>@ticket.Customer</td>
+                                    <td>@ticket.Amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+                                    <td><span class="badge bg-info">TICKET</span></td>
+                                    <td>@ticket.Created_at</td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Ticket", new { id = ticket.Id })">
+                                            <i class="bi bi-pencil"></i>
+                                        </a></td>
+                                    <td>    
+                                        <a href="@Url.Action("Delete", "Ticket", new { id = ticket.Id })">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                   
+                                </tr>
+                            }
+                            
+                            @foreach (var lead in leads)
+                            {
+                                <tr>
+                                    <td>@lead.Id</td>
+                                    <td>@lead.Customer</td>
+                                    <td>@lead.Amount.ToString("C", CultureInfo.CreateSpecificCulture("fr-FR"))</td>
+                                    <td><span class="badge bg-success">LEAD</span></td>
+                                    <td>@lead.Created_at</td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Lead", new { id = lead.Id })">
+                                            <i class="bi bi-pencil"></i>
+                                        </a></td>
+                                    <td>    
+                                        <a href="@Url.Action("Delete", "Lead", new { id = lead.Id })">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</main>
