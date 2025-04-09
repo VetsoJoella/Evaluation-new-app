@@ -17,15 +17,16 @@ namespace newapp.Controllers  // IMPORTANT : Ajoute "Login"
     {
         private readonly CheckLogin _checkLogin;
         
-         public ManagerController(CheckLogin checkLogin)
+        public ManagerController(CheckLogin checkLogin)
         {
             _checkLogin = checkLogin;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(Intervalle  intervalle)
         {
             if (!_checkLogin.IsAuthenticated())
             {
+                Console.WriteLine("Pas authentifié");
                 return RedirectToAction("Index", "Login");
 
             }
@@ -33,9 +34,24 @@ namespace newapp.Controllers  // IMPORTANT : Ajoute "Login"
             try 
             {
                 ResponseAPI<DashBoard> responseAPI = await dashBoardService.GetDashBoard();
-                Console.WriteLine("Données " +responseAPI.Data);
+                ResponseAPI<ExpenseBudgetReport> responseAPI2 = await dashBoardService.GetBudgetReport(intervalle);
+                ResponseAPI<List<CustomerContributionItem>> responseAPI3 = await dashBoardService.GetCustomerContribution(intervalle);
 
-                return View((DashBoard)responseAPI.Data);
+                CustomerContribution customerContribution = new CustomerContribution() ;
+                customerContribution.Items = responseAPI3.Data ;
+
+                Console.WriteLine($"Valeur somme budget {responseAPI2.Data.SommeBudgetsStr()}, ticket {responseAPI2.Data.SommeTickets}");
+                // foreach (var item in customerContribution.Items)
+                //     {
+                //         Console.WriteLine($"Client: {item.Customer}, " +
+                //                         $"Tickets: {item.TicketsContributions}, " +
+                //                         $"Leads: {item.LeadsContributions}");
+                //     }
+                ViewData["Dashboard"] = (DashBoard)responseAPI.Data;
+                ViewData["ExpenseBudgetReport"] = responseAPI2.Data ;
+                ViewData["CustomerContribution"] = customerContribution ;
+                
+                return View();
                 // if (responseAPI.Status != 200) throw new ConnectionManagerException(responseAPI.Message ?? "Unknown error", this);
                 
             }
@@ -47,7 +63,15 @@ namespace newapp.Controllers  // IMPORTANT : Ajoute "Login"
             return View();
         }
 
-        
+        [HttpGet]
+        [Route("ModifAlertRate")]
+
+        public async Task<IActionResult> ShowFormAlert() {
+            return View("Modif-alerte-rate");
+        }
+
+
+        [HttpPost]
         [Route("ModifAlertRate")]
         public async Task<IActionResult> ModifAlertRate(AlertRate alertRate)
         {
@@ -69,6 +93,42 @@ namespace newapp.Controllers  // IMPORTANT : Ajoute "Login"
             else ViewData["Error"] = "Data not inserted";
             return View("Modif-alerte-rate");
 
+        }
+
+        [Route("Import")]
+        public IActionResult redirectImport(){
+
+
+            return View("Import");
+        }
+
+        [Route("List")]
+        public async Task<IActionResult> List(Intervalle intervalle) {
+
+            Console.WriteLine($"Appel de récupération de liste {intervalle.StartDate} - {intervalle.EndDate} ");
+            if (!_checkLogin.IsAuthenticated())
+            {
+                Console.WriteLine("Pas authentifié");
+                return RedirectToAction("Index", "Login");
+
+            }
+            DashBoardService dashBoardService = new DashBoardService();
+
+            try
+            {
+                ResponseAPI<List<MinLeadTicket>> responseAPI = await dashBoardService.GetTickets(intervalle);
+                ResponseAPI<List<MinLeadTicket>> responseAPI1 = await dashBoardService.GetLeads(intervalle);
+
+                ViewData["tickets"] = responseAPI.Data;
+                ViewData["leads"] = responseAPI1.Data ;
+
+                return View("List");
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
         }
     }
 

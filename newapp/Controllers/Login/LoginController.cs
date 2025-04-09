@@ -28,7 +28,7 @@ namespace newapp.Controllers
                 try
                 {
                     ResponseAPI<User> resp = await manager.Connection();  // ✅ Vérifie bien que await est présent
-                    HttpContext.Session.SetInt32("user", resp.Data.Id);
+                    HttpContext.Session.SetInt32("UserId", resp.Data.Id);
                     return RedirectToAction("Index", "Manager");
                 }
                 catch (System.Exception ex)

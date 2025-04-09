@@ -30,8 +30,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Itu/S6/Evaluation-new-app/newapp/Views/Manager/Import.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxJbXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Itu/S6/Evaluation-new-app/newapp/Views/Manager/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Itu/S6/Evaluation-new-app/newapp/Views/Manager/List.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Itu/S6/Evaluation-new-app/newapp/Views/Manager/Modif-alerte-rate.cshtml]

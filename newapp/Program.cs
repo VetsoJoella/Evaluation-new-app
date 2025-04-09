@@ -1,5 +1,6 @@
 using System.Globalization;
 using newapp.Services;
+using newapp.Services.ImportSrv;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache(); // Stockage des sessions en mémoire
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CheckLogin>();
+builder.Services.AddScoped<IImportService, ImportService>();
 
 builder.Services.AddSession(options =>
 {

@@ -8,7 +8,7 @@ namespace newapp.Models
         public int Id { get; set; }
 
         // Propriété Name (le nom du client)
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         // Propriété Email (l'email du client)
         public string Email { get; set; }

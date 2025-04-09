@@ -1,4 +1,12 @@
-@model newapp.Models.DashBoard
+
+@model Intervalle
+
+@{
+    var dashboard = (newapp.Models.DashBoard)ViewData["Dashboard"];
+    var expenseBudgetReport = (newapp.Models.ExpenseBudgetReport)ViewData["ExpenseBudgetReport"];
+    var customerContribution = (newapp.Models.CustomerContribution)ViewData["CustomerContribution"];
+}
+
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -50,7 +58,7 @@
                       <i class="bi bi-ticket-perforated"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>@Model.CountTickets</h6>
+                      <h6>@dashboard.CountTickets</h6>
                       <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
 
                     </div>
@@ -85,7 +93,7 @@
                       <i class="bi bi-person-plus"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>@Model.CountLeads</h6>
+                      <h6>@dashboard.CountLeads</h6>
                       <!-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
                     </div>
                   </div>
@@ -120,7 +128,7 @@
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>@Model.CountUsers</h6>
+                      <h6>@dashboard.CountUsers</h6>
                       <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
 
                     </div>
@@ -130,6 +138,42 @@
               </div>
 
             </div><!-- End Customers Card -->
+
+            
+
+            <section class="section dashboard">
+              <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Search by Date Range</h5>
+                                
+                                <!-- Formulaire de recherche avec deux dates -->
+                                <form method="get" asp-action="Index" asp-controller="Manager">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label for="startDate" >Start Date</label>
+                                            <input type="date" id="startDate" asp-for="StartDate" class="form-control"required />
+                                             <span asp-validation-for="StartDate" class="text-danger"></span>
+
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label for="endDate" >End Date</label>
+                                            <input type="date" asp-for="EndDate" id="endDate" name="endDate" class="form-control"  required />
+                                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                       
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br><a href="@Url.Action("List", "Manager")">Voir detail >></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <!-- Reports -->
             <div class="col-12">
@@ -212,7 +256,6 @@
 
               </div>
             </div><!-- End Reports -->
-
             <!-- Recent Sales -->
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
@@ -235,6 +278,7 @@
 
             <div class="col-6">
                 
+                @* <canvas id="myPieChart" width="400" height="400"></canvas> *@
                 <!-- Website Traffic -->
                 <div class="card">
                     <div class="filter">
@@ -251,64 +295,28 @@
                     </div>
 
                     <div class="card-body pb-0">
-                    <h5 class="card-title">Ticket priority repartition <span>| Today</span></h5>
+                    <h5 class="card-title">Expense budget report <span>| Today</span></h5>
 
-                    <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-
+                    <div id="pieChart"></div>                     
                     <script>
-                        document.addEventListener("DOMContentLoaded", () => {
-                        echarts.init(document.querySelector("#trafficChart")).setOption({
-                            tooltip: {
-                            trigger: 'item'
+                      document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector('#pieChart'), {
+                           series: [@expenseBudgetReport.SommeBudgetsStr(), @expenseBudgetReport.SommeTicketsStr(), @expenseBudgetReport.SommeLeadsStr()],
+                            chart: {
+                              height: 350,
+                              type: 'pie',
+                              toolbar: {
+                                show: true
+                              }
                             },
-                            legend: {
-                            top: '5%',
-                            left: 'center'
-                            },
-                            series: [{
-                            name: 'Access From',
-                            type: 'pie',
-                            radius: ['40%', '70%'],
-                            avoidLabelOverlap: false,
-                            label: {
-                                show: false,
-                                position: 'center'
-                            },
-                            emphasis: {
-                                label: {
-                                show: true,
-                                fontSize: '18',
-                                fontWeight: 'bold'
-                                }
-                            },
-                            labelLine: {
-                                show: false
-                            },
-                            data: [{
-                                value: 1048,
-                                name: 'Search Engine'
-                                },
-                                {
-                                value: 735,
-                                name: 'Direct'
-                                },
-                                {
-                                value: 580,
-                                name: 'Email'
-                                },
-                                {
-                                value: 484,
-                                name: 'Union Ads'
-                                },
-                                {
-                                value: 300,
-                                name: 'Video Ads'
-                                }
-                            ]
-                            }]
-                        });
-                        });
-                    </script>
+                            labels: [
+                              'Budget',
+                              'Ticket',
+                              'Lead'
+                            ]}).render();
+                });
+              </script>
+                    
 
                     </div>
                 </div><!-- End Website Traffic -->
@@ -331,65 +339,52 @@
                     </div>
 
                     <div class="card-body pb-0">
-                    <h5 class="card-title">Lead Status <span>| Today</span></h5>
+                    <h5 class="card-title">Customers contribution <span>| Today</span></h5>
 
-                    <div id="leadTraffic" style="min-height: 400px;" class="echart"></div>
+                    <div id="verticalBarChart" style="min-height: 400px;" class="echart"></div>
+                  <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#verticalBarChart")).setOption({
+                    title: {
+                      text: 'Contribution'
+                    },
+                    tooltip: {
+                      trigger: 'axis',
+                      axisPointer: {
+                        type: 'shadow'
+                      }
+                    },
+                    legend: {},
+                    grid: {
+                      left: '3%',
+                      right: '4%',
+                      bottom: '3%',
+                      containLabel: true
+                    },
+                    xAxis: {
+                      type: 'value',
+                      boundaryGap: [0, 0.01]
+                    },
+                   yAxis: {
+                      type: 'category',
+                      data: @Html.Raw(customerContribution.GetKeysAsJsonArray())
+                    },
+                    series: [{
+                        name: 'Tickets',
+                        type: 'bar',
+                        data: @customerContribution.GetTicketsValuesAsString()
 
-                    <script>
-                        document.addEventListener("DOMContentLoaded", () => {
-                        echarts.init(document.querySelector("#leadTraffic")).setOption({
-                            tooltip: {
-                            trigger: 'item'
-                            },
-                            legend: {
-                            top: '5%',
-                            left: 'center'
-                            },
-                            series: [{
-                            name: 'Access From',
-                            type: 'pie',
-                            radius: ['40%', '70%'],
-                            avoidLabelOverlap: false,
-                            label: {
-                                show: false,
-                                position: 'center'
-                            },
-                            emphasis: {
-                                label: {
-                                show: true,
-                                fontSize: '18',
-                                fontWeight: 'bold'
-                                }
-                            },
-                            labelLine: {
-                                show: false
-                            },
-                            data: [{
-                                value: 1048,
-                                name: 'Search Engine'
-                                },
-                                {
-                                value: 735,
-                                name: 'Direct'
-                                },
-                                {
-                                value: 580,
-                                name: 'Email'
-                                },
-                                {
-                                value: 484,
-                                name: 'Union Ads'
-                                },
-                                {
-                                value: 300,
-                                name: 'Video Ads'
-                                }
-                            ]
-                            }]
-                        });
-                        });
-                    </script>
+                      },
+                      {
+                        name: 'Leads',
+                        type: 'bar',
+                        data: @customerContribution.GetLeadsValuesAsString()
 
+                      }
+                    ]
+                  });
+                });
+              </script>
                     </div>
                 </div><!-- End Website Traffic -->
             </div>

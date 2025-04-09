@@ -1,35 +1,36 @@
+using newapp.Models.Response ;
+using newapp.Config ; 
 using newapp.Models;
+
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using newapp.Models.Response;
-using newapp.Models;
-using newapp.Config ; 
 
-namespace newapp.Services.Connection
+namespace newapp.Services.ImportSrv
 {
-    public class ConnectionService : IConnectionService
+    
+    public class ImportService : IImportService
     {
-        private readonly HttpClient _httpClient;
+         private readonly HttpClient _httpClient;
 
-        public ConnectionService()
+        public ImportService()
         {
             _httpClient = new HttpClient();
         }
 
-        public async Task<ResponseAPI<User>> Connection(Manager manager)
+        public async Task<ResponseAPI<string>> SendImportData(string data)
         {
            try
             {
                 // Convertir l'objet User en JSON
-                string jsonUser = JsonSerializer.Serialize(manager);
-                var content = new StringContent(jsonUser, Encoding.UTF8, "application/json");
+                // string jsonUser = JsonSerializer.Serialize(data);
+                var content = new StringContent(data, Encoding.UTF8, "application/json");
 
                 // Console.WriteLine($"content: {jsonUser}");
-                HttpResponseMessage response = await _httpClient.PostAsync(Constant.ApiBaseUrl+"/connection", content);
+                HttpResponseMessage response = await _httpClient.PostAsync(Constant.ApiBaseUrl+"/import", content);
 
 
                 // Vérifier la réponse
@@ -40,7 +41,7 @@ namespace newapp.Services.Connection
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                     };
                     // Console.WriteLine($"Réponse de await est : {jsonResponse} ");
-                    return JsonSerializer.Deserialize<ResponseAPI<User>>(jsonResponse, options);
+                    return JsonSerializer.Deserialize<ResponseAPI<string>>(jsonResponse, options);
                 }
                 else
                 {
